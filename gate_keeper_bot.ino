@@ -23,12 +23,21 @@ void setup() {
   GateControlSetup();
 }
 
+unsigned long lastCheckTime = 0;
+const unsigned long CHECK_INTERVAL = 30 * 1000; // 30 seconds
+
 void loop() {
-  if (!checkInternetWithRetry()) {
-    Serial.println("Internet is unavailable.");
-    // reset the board if no internet connection
-    Serial.println("Restarting...");
-    ESP.restart();
+  // Check connection every 30 seconds
+  if (millis() - lastCheckTime > CHECK_INTERVAL) {
+    lastCheckTime = millis();
+    if (!TgBot.checkConnection()) {
+      Serial.println("Internet is unavailable.");
+      // reset the board if no internet connection
+      Serial.println("Restarting...");
+      ESP.restart();
+    } else {
+      Serial.println("Internet is available.");
+    }
   }
   TgCheckNewMessages();
 }

@@ -5,7 +5,7 @@
 
 // Remote PINS
 #define POWER_VDD_PIN 12
-#define BUTTON_PIN 2
+#define BUTTON_PIN 14
 
 
 // When the button is pressed, it passes LOW signal to the controller
